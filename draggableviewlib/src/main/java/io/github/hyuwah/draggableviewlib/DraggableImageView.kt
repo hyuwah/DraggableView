@@ -22,6 +22,7 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
 
     private var stickyAxis: Int
     private var mAnimate: Boolean
+    private var mMarginTop: Int
 
     private var widgetXFirst: Float = 0F
     private var widgetDX: Float = 0F
@@ -34,16 +35,19 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
             try {
                 stickyAxis = getInteger(R.styleable.DraggableImageView_sticky, 0)
                 mAnimate = getBoolean(R.styleable.DraggableImageView_animate, false)
+                mMarginTop = getDimensionPixelSize(R.styleable.DraggableImageView_marginTop, 0)
             } finally {
                 recycle()
             }
         }
+
+        draggableSetup()
     }
 
     /**
      * Draggable Touch Listener
      */
-    fun setOnTouchListener(callback: () -> Unit) {
+    fun draggableSetup() {
         this.setOnTouchListener { v, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
@@ -59,9 +63,8 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                     if (event.rawX >= v.width / 2 && event.rawX <= (DEVICE_WIDTH - v.width / 2))
                         v.x = event.rawX + this.widgetDX
 
-                    if (event.rawY >= (v.height / 2) && event.rawY <= (DEVICE_HEIGHT - v.height / 2))
+                    if (event.rawY >= (mMarginTop.toFloat()) && event.rawY <= (DEVICE_HEIGHT - v.height / 2))
                         v.y = event.rawY + this.widgetDY
-
 
                     this.widgetLastAction = MotionEvent.ACTION_MOVE
                 }
@@ -122,7 +125,7 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
 
                     // Will register as clicked if not moved for 16px in both X & Y
                     if (abs(v.x - widgetXFirst) <= 16 && abs(v.y - widgetYFirst) <= 16) {
-                        callback.invoke()
+                        performClick()
                     }
                 }
                 else -> return@setOnTouchListener false

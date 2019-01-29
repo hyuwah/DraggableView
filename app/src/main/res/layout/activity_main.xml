@@ -16,4 +16,18 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
 
+    <io.github.hyuwah.draggableviewlib.DraggableImageView
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@mipmap/ic_launcher_round"
+            android:id="@+id/dv_test"
+            app:marginTop="?attr/actionBarSize"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:animate="true"
+            app:sticky="x"
+    />
+
 </android.support.constraint.ConstraintLayout>

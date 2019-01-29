@@ -7,5 +7,6 @@
             <enum name="xy" value="3"/>
         </attr>
         <attr name="animate" format="boolean"/>
+        <attr name="marginTop" format="dimension"/>
     </declare-styleable>
 </resources>
