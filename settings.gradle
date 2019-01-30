@@ -1,1 +1,1 @@
-include ':app', ':draggableviewlib'
+include ':example', ':draggableviewlib'

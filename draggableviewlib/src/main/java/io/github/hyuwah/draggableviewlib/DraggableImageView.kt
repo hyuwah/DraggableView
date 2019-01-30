@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
+import android.view.View
 import android.widget.ImageView
 import kotlin.math.abs
 
@@ -13,17 +14,23 @@ import kotlin.math.abs
  */
 class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
 
-    private val STICKY_AXIS_X = 1
-    private val STICKY_AXIS_Y = 2
-    private val STICKY_AXIS_XY = 3
+    companion object {
+        val NON_STICKY = 0
+        val STICKY_AXIS_X = 1
+        val STICKY_AXIS_Y = 2
+        val STICKY_AXIS_XY = 3
+    }
 
-    private var DEVICE_WIDTH = (context as Activity).windowManager.defaultDisplay.width
-    private var DEVICE_HEIGHT = (context as Activity).windowManager.defaultDisplay.height
+    private var DRAG_TOLERANCE = 16
 
+    private var DEVICE_WIDTH = Utils.getScreenWidth(context)
+    private var DEVICE_HEIGHT = Utils.getScreenHeight(context)
+
+    // Attributes
     private var stickyAxis: Int
     private var mAnimate: Boolean
-    private var mMarginTop: Int
 
+    // Coordinates
     private var widgetXFirst: Float = 0F
     private var widgetDX: Float = 0F
     private var widgetYFirst: Float = 0F
@@ -35,7 +42,6 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
             try {
                 stickyAxis = getInteger(R.styleable.DraggableImageView_sticky, 0)
                 mAnimate = getBoolean(R.styleable.DraggableImageView_animate, false)
-                mMarginTop = getDimensionPixelSize(R.styleable.DraggableImageView_marginTop, 0)
             } finally {
                 recycle()
             }
@@ -45,9 +51,9 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
     }
 
     /**
-     * Draggable Touch Listener
+     * Draggable Touch Setup
      */
-    fun draggableSetup() {
+    private fun draggableSetup() {
         this.setOnTouchListener { v, event ->
             when (event.actionMasked) {
                 MotionEvent.ACTION_DOWN -> {
@@ -58,18 +64,26 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                     this.widgetLastAction = MotionEvent.ACTION_DOWN
                 }
                 MotionEvent.ACTION_MOVE -> {
+                    val viewParent:View = (v.parent as View)
+                    val parentHeight = viewParent.height
+                    val parentWidth = viewParent.width
 
                     // Screen border Collision
-                    if (event.rawX >= v.width / 2 && event.rawX <= (DEVICE_WIDTH - v.width / 2))
-                        v.x = event.rawX + this.widgetDX
+                    var newX = event.rawX + this.widgetDX
+                    newX = Math.max(0F, newX)
+                    newX = Math.min((parentWidth-v.width).toFloat(), newX)
+                    v.x = newX
 
-                    if (event.rawY >= (mMarginTop.toFloat()) && event.rawY <= (DEVICE_HEIGHT - v.height / 2))
-                        v.y = event.rawY + this.widgetDY
+                    var newY = event.rawY + this.widgetDY
+                    newY = Math.max(0F, newY)
+                    newY = Math.min((parentHeight - v.height).toFloat(), newY)
+                    v.y = newY
 
                     this.widgetLastAction = MotionEvent.ACTION_MOVE
                 }
                 MotionEvent.ACTION_UP -> {
 
+                    // If Sticky
                     when (this.stickyAxis) {
                         STICKY_AXIS_X -> {
                             if (event.rawX >= DEVICE_WIDTH / 2) {
@@ -107,8 +121,12 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                                     v.animate().x((DEVICE_WIDTH) - (v.width).toFloat()).setDuration(250).start()
                                 else
                                     v.x = (DEVICE_WIDTH) - (v.width).toFloat()
-                            } else
+                            } else {
+                                if (this.mAnimate)
+                                    v.animate().x(0F).setDuration(250).start()
                                 v.x = 0F
+                            }
+
                             if (event.rawY >= DEVICE_HEIGHT / 2) {
                                 if (this.mAnimate)
                                     v.animate().y((DEVICE_HEIGHT) - (v.height * 2).toFloat()).setDuration(250).start()
@@ -124,7 +142,7 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                     }
 
                     // Will register as clicked if not moved for 16px in both X & Y
-                    if (abs(v.x - widgetXFirst) <= 16 && abs(v.y - widgetYFirst) <= 16) {
+                    if (abs(v.x - widgetXFirst) <= DRAG_TOLERANCE && abs(v.y - widgetYFirst) <= DRAG_TOLERANCE) {
                         performClick()
                     }
                 }
@@ -138,11 +156,16 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
         return super.performClick()
     }
 
+    /***
+     * ATTRIBUTES setter / getter
+     */
 
     fun setStickyAxis(axis: Int) {
         when (axis) {
-            STICKY_AXIS_X, STICKY_AXIS_Y, STICKY_AXIS_XY -> {
+            NON_STICKY, STICKY_AXIS_X, STICKY_AXIS_Y, STICKY_AXIS_XY -> {
                 this.stickyAxis = axis
+                invalidate()
+                requestLayout()
             }
         }
     }
