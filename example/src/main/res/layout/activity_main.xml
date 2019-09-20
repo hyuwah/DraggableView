@@ -1,62 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".MainActivity">
 
-    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  app:layout_constraintLeft_toLeftOf="parent"
-                  app:layout_constraintRight_toRightOf="parent"
-                  app:layout_constraintBottom_toBottomOf="parent"
-                  android:layout_margin="16dp"
-                  android:orientation="vertical"
-                  android:gravity="center_horizontal">
+    <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent">
+
         <Button
                 android:id="@+id/btn_nonsticky"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nonsticky"
-        />
+                android:text="Nonsticky" />
+
         <Button
                 android:id="@+id/btn_sticky_x"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sticky X"
-        />
+                android:text="Sticky X" />
+
         <Button
                 android:id="@+id/btn_sticky_y"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sticky Y"
-        />
+                android:text="Sticky Y" />
+
         <Button
                 android:id="@+id/btn_sticky_xy"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sticky XY"
-        />
+                android:text="Sticky XY" />
+
         <Switch
                 android:id="@+id/sw_animate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Animate"
-        />
+                android:text="Animate" />
     </LinearLayout>
 
     <io.github.hyuwah.draggableviewlib.DraggableImageView
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:src="@mipmap/ic_launcher_round"
             android:id="@+id/dv_test"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:src="@mipmap/ic_launcher_round"
             app:animate="true"
-            app:sticky="x"
-    />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:sticky="x" />
+
+    <TextView
+            android:id="@+id/tv_test_draggable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:text="DRAG ME!"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+            android:id="@+id/ll_test_draggable"
+            android:background="#a0f3409a"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="24dp"
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEXT 1" />
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TEXT 2!" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

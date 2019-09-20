@@ -1,11 +1,14 @@
 package io.github.hyuwah.draggableview
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
+import io.github.hyuwah.draggableviewlib.Constants
 import io.github.hyuwah.draggableviewlib.DraggableImageView
+import io.github.hyuwah.draggableviewlib.makeDraggable
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +26,13 @@ class MainActivity : AppCompatActivity() {
 
         swAnimate.isChecked = dvTest.isAnimate()
         swAnimate.setOnCheckedChangeListener { _, isChecked ->
-            if(isChecked) dvTest.setAnimate(true) else dvTest.setAnimate(false)
+            if (isChecked) {
+                dvTest.setAnimate(true)
+                tv_test_draggable.makeDraggable(Constants.STICKY.AXIS_X, true)
+            } else {
+                tv_test_draggable.makeDraggable(Constants.STICKY.AXIS_X, false)
+                dvTest.setAnimate(false)
+            }
         }
 
         btnStickyX.setOnClickListener {
@@ -49,5 +58,8 @@ class MainActivity : AppCompatActivity() {
         dvTest.setOnClickListener {
             Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
         }
+
+        ll_test_draggable.makeDraggable(Constants.STICKY.AXIS_Y)
+        tv_test_draggable.makeDraggable(Constants.STICKY.AXIS_X, true)
     }
 }

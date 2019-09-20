@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
+import io.github.hyuwah.draggableviewlib.Constants.DRAG_TOLERANCE
 import kotlin.math.abs
 
 /**
@@ -19,8 +20,6 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
         const val STICKY_AXIS_Y = 2
         const val STICKY_AXIS_XY = 3
     }
-
-    private var DRAG_TOLERANCE = 16
 
     // Attributes
     private var stickyAxis: Int
