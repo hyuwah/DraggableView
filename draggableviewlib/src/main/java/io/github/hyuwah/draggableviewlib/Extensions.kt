@@ -1,14 +1,16 @@
+@file:JvmName("DraggableUtils")
 package io.github.hyuwah.draggableviewlib
 
 import android.view.MotionEvent
 import android.view.View
-import io.github.hyuwah.draggableviewlib.Constants.DRAG_TOLERANCE
+import io.github.hyuwah.draggableviewlib.Draggable.DRAG_TOLERANCE
 import java.lang.Math.max
 import kotlin.math.abs
 import kotlin.math.min
 
+@JvmOverloads
 fun View.makeDraggable(
-    stickyAxis: Constants.STICKY = Constants.STICKY.NONE,
+    stickyAxis: Draggable.STICKY = Draggable.STICKY.NONE,
     animated: Boolean = true
 ) {
     var widgetInitialX = 0f
@@ -40,7 +42,7 @@ fun View.makeDraggable(
             }
             MotionEvent.ACTION_UP -> {
                 when (stickyAxis) {
-                    Constants.STICKY.AXIS_X -> {
+                    Draggable.STICKY.AXIS_X -> {
                         if (event.rawX >= PARENT_WIDTH / 2) {
                             if (animated)
                                 v.animate().x((PARENT_WIDTH) - (v.width).toFloat()).setDuration(250).start()
@@ -53,7 +55,7 @@ fun View.makeDraggable(
                                 v.x = 0F
                         }
                     }
-                    Constants.STICKY.AXIS_Y -> {
+                    Draggable.STICKY.AXIS_Y -> {
                         if (event.rawY >= PARENT_HEIGHT / 2) {
                             if (animated)
                                 v.animate().y((PARENT_HEIGHT) - (v.height).toFloat()).setDuration(
@@ -72,7 +74,7 @@ fun View.makeDraggable(
                             }
                         }
                     }
-                    Constants.STICKY.AXIS_XY -> {
+                    Draggable.STICKY.AXIS_XY -> {
                         if (event.rawX >= PARENT_WIDTH / 2) {
                             if (animated)
                                 v.animate().x((PARENT_WIDTH) - (v.width).toFloat()).setDuration(250).start()

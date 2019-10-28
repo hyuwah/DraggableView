@@ -5,7 +5,7 @@ import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
 import android.widget.ImageView
-import io.github.hyuwah.draggableviewlib.Constants.DRAG_TOLERANCE
+import io.github.hyuwah.draggableviewlib.Draggable.DRAG_TOLERANCE
 import kotlin.math.abs
 
 /**

@@ -1,6 +1,6 @@
 package io.github.hyuwah.draggableviewlib
 
-object Constants {
+object Draggable {
 
     enum class STICKY {
         NONE,

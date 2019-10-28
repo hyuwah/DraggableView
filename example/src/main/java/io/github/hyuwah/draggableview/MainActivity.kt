@@ -1,18 +1,19 @@
 package io.github.hyuwah.draggableview
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.widget.Button
 import android.widget.Switch
 import android.widget.Toast
-import io.github.hyuwah.draggableviewlib.Constants
+import io.github.hyuwah.draggableviewlib.Draggable
 import io.github.hyuwah.draggableviewlib.DraggableImageView
 import io.github.hyuwah.draggableviewlib.makeDraggable
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    var currentStickyAxis = Constants.STICKY.AXIS_X
+    var currentStickyAxis = Draggable.STICKY.AXIS_X
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         // Set sticky axis to X axis
         btnStickyX.setOnClickListener {
             dvTest.setStickyAxis(DraggableImageView.STICKY_AXIS_X)
-            currentStickyAxis = Constants.STICKY.AXIS_X
+            currentStickyAxis = Draggable.STICKY.AXIS_X
             ll_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             tv_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             Toast.makeText(this@MainActivity, "Sticky Axis set to X", Toast.LENGTH_SHORT).show()
@@ -57,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         // Set sticky axis to Y axis
         btnStickyY.setOnClickListener {
             dvTest.setStickyAxis(DraggableImageView.STICKY_AXIS_Y)
-            currentStickyAxis = Constants.STICKY.AXIS_Y
+            currentStickyAxis = Draggable.STICKY.AXIS_Y
             ll_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             tv_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             Toast.makeText(this@MainActivity, "Sticky Axis set to Y", Toast.LENGTH_SHORT).show()
@@ -66,7 +67,7 @@ class MainActivity : AppCompatActivity() {
         // Set sticky axis to XY axis
         btnStickyXY.setOnClickListener {
             dvTest.setStickyAxis(DraggableImageView.STICKY_AXIS_XY)
-            currentStickyAxis = Constants.STICKY.AXIS_XY
+            currentStickyAxis = Draggable.STICKY.AXIS_XY
             ll_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             tv_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             Toast.makeText(this@MainActivity, "Sticky Axis set to XY", Toast.LENGTH_SHORT).show()
@@ -75,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         // Remove sticky axis / will float
         btnNonSticky.setOnClickListener {
             dvTest.setStickyAxis(DraggableImageView.NON_STICKY)
-            currentStickyAxis = Constants.STICKY.NONE
+            currentStickyAxis = Draggable.STICKY.NONE
             ll_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             tv_test_draggable.makeDraggable(currentStickyAxis, swAnimate.isChecked)
             Toast.makeText(this@MainActivity, "Sticky Axis set none", Toast.LENGTH_SHORT).show()
@@ -84,6 +85,7 @@ class MainActivity : AppCompatActivity() {
         // Set click listener
         dvTest.setOnClickListener {
             Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this,JavaMainActivity::class.java))
         }
 
         ll_test_draggable.setOnClickListener {
