@@ -1,5 +1,6 @@
 package io.github.hyuwah.draggableview;
 
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,7 +35,7 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
     }
 
     @Override
-    public void onViewMove(@NotNull View view) {
+    public void onPositionChanged(@NotNull View view) {
         TextView textView = findViewById(R.id.tv_coordinate);
         textView.setText("X: " + view.getX() + "\tY: " + view.getY());
     }

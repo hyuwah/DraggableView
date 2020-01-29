@@ -47,7 +47,7 @@ fun View.makeDraggable(
                 newY = min(yMax.toFloat(), newY)
                 v.y = newY
 
-                draggableListener?.onViewMove(v)
+                draggableListener?.onPositionChanged(v)
             }
             MotionEvent.ACTION_UP -> {
                 when (stickyAxis) {
@@ -56,14 +56,14 @@ fun View.makeDraggable(
                             if (animated)
                                 v.animate().x(xMax.toFloat())
                                     .setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else
                                 v.x = xMax.toFloat()
                         } else {
                             if (animated)
                                 v.animate().x(0F).setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else
                                 v.x = 0F
@@ -74,7 +74,7 @@ fun View.makeDraggable(
                             if (animated)
                                 v.animate().y(yMax.toFloat())
                                     .setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else
                                 v.y = yMax.toFloat()
@@ -82,12 +82,12 @@ fun View.makeDraggable(
                             if (animated)
                                 v.animate().y(0F)
                                     .setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else {
                                 if (animated)
                                     v.animate().y(0F).setDuration(DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.y = 0F
@@ -99,14 +99,14 @@ fun View.makeDraggable(
                             if (animated)
                                 v.animate().x(xMax.toFloat())
                                     .setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else
                                 v.x = xMax.toFloat()
                         } else {
                             if (animated)
                                 v.animate().x(0F).setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             v.x = 0F
                         }
@@ -115,14 +115,14 @@ fun View.makeDraggable(
                             if (animated)
                                 v.animate().y(yMax.toFloat())
                                     .setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else
                                 v.y = yMax.toFloat()
                         } else {
                             if (animated)
                                 v.animate().y(0F).setDuration(DURATION_MILLIS)
-                                    .setUpdateListener { draggableListener?.onViewMove(v) }
+                                    .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                     .start()
                             else
                                 v.y = 0F

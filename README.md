@@ -172,14 +172,14 @@ There's an interface `DraggableListener` to listen to the `View` while being dra
 
 ```kotlin
 interface DraggableListener {
-    fun onViewMove(view: View)
+    fun onPositionChanged(view: View)
 }
 ```
 Just pass the implementation of the interface to `makeDraggable` method
 
 ```kotlin
 someView.makeDraggable(object: DraggableListener{
-    override fun onViewMove(view: View){
+    override fun onPositionChanged(view: View){
         // Do something, get coordinates of view, etc
     }
 })

@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
     var currentStickyAxis = Draggable.STICKY.AXIS_X
 
     val llTestDraggableListener = object : DraggableListener {
-        override fun onViewMove(view: View) {
+        override fun onPositionChanged(view: View) {
             tv_ll_1.text = "X: ${view.x}"
             tv_ll_2.text = "Y: ${view.y}"
         }
@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         // Set on view move listener
         dvTest.setListener(object : DraggableListener {
-            override fun onViewMove(view: View) {
+            override fun onPositionChanged(view: View) {
                 tv_test_draggable.text = "Icon Coordinates\nX: ${view.x}\nY: ${view.y}"
             }
         })

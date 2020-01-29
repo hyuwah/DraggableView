@@ -79,7 +79,7 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                     newY = min(yMax.toFloat(), newY)
                     v.y = newY
 
-                    draggableListener?.onViewMove(v)
+                    draggableListener?.onPositionChanged(v)
                 }
                 MotionEvent.ACTION_UP -> {
                     when (stickyAxis) {
@@ -88,14 +88,14 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                                 if (mAnimate)
                                     v.animate().x(xMax.toFloat())
                                         .setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.x = xMax.toFloat()
                             } else {
                                 if (mAnimate)
                                     v.animate().x(0F).setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.x = 0F
@@ -106,7 +106,7 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                                 if (mAnimate)
                                     v.animate().y(yMax.toFloat())
                                         .setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.y = yMax.toFloat()
@@ -114,12 +114,16 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                                 if (mAnimate)
                                     v.animate().y(0F)
                                         .setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else {
                                     if (mAnimate)
                                         v.animate().y(0F).setDuration(Draggable.DURATION_MILLIS)
-                                            .setUpdateListener { draggableListener?.onViewMove(v) }
+                                            .setUpdateListener {
+                                                draggableListener?.onPositionChanged(
+                                                    v
+                                                )
+                                            }
                                             .start()
                                     else
                                         v.y = 0F
@@ -131,14 +135,14 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                                 if (mAnimate)
                                     v.animate().x(xMax.toFloat())
                                         .setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.x = xMax.toFloat()
                             } else {
                                 if (mAnimate)
                                     v.animate().x(0F).setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 v.x = 0F
                             }
@@ -147,14 +151,14 @@ class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(cont
                                 if (mAnimate)
                                     v.animate().y(yMax.toFloat())
                                         .setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.y = yMax.toFloat()
                             } else {
                                 if (mAnimate)
                                     v.animate().y(0F).setDuration(Draggable.DURATION_MILLIS)
-                                        .setUpdateListener { draggableListener?.onViewMove(v) }
+                                        .setUpdateListener { draggableListener?.onPositionChanged(v) }
                                         .start()
                                 else
                                     v.y = 0F
