@@ -6,6 +6,15 @@
         android:layout_height="match_parent"
         tools:context=".JavaMainActivity">
 
+    <TextView
+            android:id="@+id/tv_coordinate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_margin="12dp"
+            android:text="Coordinate"
+            android:textAlignment="center" />
+
     <Button
             android:id="@+id/btn_java"
             android:text="Button"

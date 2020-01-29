@@ -4,12 +4,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import org.jetbrains.annotations.NotNull;
+
 import io.github.hyuwah.draggableviewlib.Draggable;
+import io.github.hyuwah.draggableviewlib.DraggableListener;
 import io.github.hyuwah.draggableviewlib.DraggableUtils;
 
-public class JavaMainActivity extends AppCompatActivity {
+public class JavaMainActivity extends AppCompatActivity implements DraggableListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,7 +22,7 @@ public class JavaMainActivity extends AppCompatActivity {
 
         Button button = findViewById(R.id.btn_java);
 
-        DraggableUtils.makeDraggable(button, Draggable.STICKY.AXIS_X, true);
+        DraggableUtils.makeDraggable(button, Draggable.STICKY.AXIS_X, true, this);
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -27,5 +31,11 @@ public class JavaMainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    @Override
+    public void onViewMove(@NotNull View view) {
+        TextView textView = findViewById(R.id.tv_coordinate);
+        textView.setText("X: " + view.getX() + "\tY: " + view.getY());
     }
 }

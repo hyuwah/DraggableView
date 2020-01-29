@@ -1,8 +1,7 @@
 # DraggableView
 [![](https://jitpack.io/v/hyuwah/DraggableView.svg)](https://jitpack.io/#hyuwah/DraggableView)
 
-DraggableView is an Android library to make floating draggable view easy, currently it only extends from ImageView.
-Now you can make any view (or viewgroup) draggable using extensions on Kotlin & provided utils class on Java
+DraggableView is an Android library to make floating draggable view easy.
 
 ![Preview](https://miro.medium.com/max/314/1*dMzIJlT12hmSTkVkzNnxEQ.gif)
 
@@ -35,7 +34,11 @@ dependencies {
 
 ## Usage
 
-### Customizable Attributes
+### CustomView (XML)
+
+Currently i've only provide CustomView that extends ImageView. For other view, see **Programmatically** usage below
+
+#### Customizable Attributes
 
 **DraggableImageView**
 
@@ -44,12 +47,7 @@ Attribute | Value (Default) | XML | Code
 Animate | true, false (false) | animate | setAnimate(boolean isAnimate)
 Sticky Axis | NON_STICKY, STICKY_AXIS_X, STICKY_AXIS_Y, STICKY_AXIS_XY (NON_STICKY) | sticky | setStickyAxis(int axis)
 
-
-### Basic sample
-
-#### Using xml view (DraggableImageView)
-
-On Layout XML file
+#### On Layout XML file
 ```xml
 <io.github.hyuwah.draggableviewlib.DraggableImageView
             android:src="@mipmap/ic_launcher_round"
@@ -58,7 +56,7 @@ On Layout XML file
             android:layout_height="wrap_content"/>
 ```
 
-On Activity / Fragment file
+#### On Activity / Fragment file
 ```kotlin
 var dv = findViewById<DraggableImageView>(R.id.draggableView)
 dv.setOnClickListener {
@@ -66,9 +64,24 @@ dv.setOnClickListener {
 }
 ```
 
-#### Using extension (Kotlin only)
+You can add a DraggableListener programmatically via `setListener()` method directly on the view, see below explanation about the listener
+
+### Programmatically
+
+#### Using extension (Kotlin)
 
 You can extent any view or viewgroup to be draggable (i.e. Button, FrameLayout, Linearlayout, LottieView, etc)
+
+```kotlin
+// Method signature
+fun View.makeDraggable(
+    stickyAxis: Draggable.STICKY = Draggable.STICKY.NONE,
+    animated: Boolean = true,
+    draggableListener: DraggableListener? = null
+){
+    ...
+}
+```
 
 Here's some example using TextView:
 
@@ -83,21 +96,43 @@ Here's some example using TextView:
 ```kotlin
 var tv = findViewById<TextView>(R.id.tv_test_draggable)
 
-tv.makeDraggable(Draggable.STICKY.AXIS_X, true) // default is STICKY.NONE & animated true
+tv.makeDraggable(Draggable.STICKY.AXIS_X, false) // set sticky axis to x & animation to false
+tv.makeDraggable(Draggable.STICKY.AXIS_XY) // set sticky axis to xy
+tv.makeDraggable() // all default
 
-// First param is the axis:
+// First param is the axis (optional)
 // - Draggable.STICKY.AXIS_X
 // - Draggable.STICKY.AXIS_Y
 // - Draggable.STICKY.AXIS_XY
-// - Draggable.STICKY.NONE
+// - Draggable.STICKY.NONE (default)
 
-// Second param is animation toggle
-// - true or false
+// Second param is animation flag (optional)
+// - true or false (default is true)
+// *Sticky.NONE doesn't get affected by this flag
+
+// Third param is listener (optional)
+// - DraggableListener implementation (default is null)
 ```
 
-#### Using DraggableUtils (on Java)
+#### Using DraggableUtils (Java)
 
 If you're on java class, you could do it with the help of DraggableUtils
+
+```java
+class DraggableUtils {
+    
+    // Method signature
+    public static void makeDraggable(
+        View $self,
+        Draggable.STICKY stickyAxis,
+        boolean animated,
+        DraggableListener draggableListener
+        ) {
+            ...
+        }
+}
+ 
+```
 
 Here's some example using Button:
 
@@ -112,20 +147,45 @@ Here's some example using Button:
 ```java
 Button button = findViewById(R.id.tv_test_draggable);
 
-DraggableUtils.makeDraggable(button, Draggable.STICKY.AXIS_X, true); // default is STICKY.NONE & animated true
+DraggableUtils.makeDraggable(button, Draggable.STICKY.AXIS_X, false) // set sticky axis to x & animation to false
+DraggableUtils.makeDraggable(button, Draggable.STICKY.AXIS_XY) // set sticky axis to xy
+DraggableUtils.makeDraggable(button) // all default
 
 // First param is the view
 
-// Second param is the axis:
+// Second param is the axis (optional)
 // - Draggable.STICKY.AXIS_X
 // - Draggable.STICKY.AXIS_Y
 // - Draggable.STICKY.AXIS_XY
-// - Draggable.STICKY.NONE
+// - Draggable.STICKY.NONE (default)
 
-// Third param is animation toggle
-// - true or false
+// Third param is animation flag (optional)
+// - true or false (default is true)
+// *Sticky.NONE doesn't get affected by this flag
+
+// Fourth param is listener (optional)
+// - DraggableListener implementation (default is null)
 ```
 
+#### DraggableListener
+There's an interface `DraggableListener` to listen to the `View` while being dragged / moved
+
+```kotlin
+interface DraggableListener {
+    fun onViewMove(view: View)
+}
+```
+Just pass the implementation of the interface to `makeDraggable` method
+
+```kotlin
+someView.makeDraggable(object: DraggableListener{
+    override fun onViewMove(view: View){
+        // Do something, get coordinates of view, etc
+    }
+})
+
+// *Java counterpart must supply all 3 other params to use the listener
+```
 
 Check example module [kotlin](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/MainActivity.kt), [java](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/JavaMainActivity.java) for actual implementation
 
