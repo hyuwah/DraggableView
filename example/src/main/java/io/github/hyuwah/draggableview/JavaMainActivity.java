@@ -1,8 +1,7 @@
 package io.github.hyuwah.draggableview;
 
-import android.support.v4.view.ViewPropertyAnimatorListener;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -20,6 +19,7 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_java_main);
+        setTitle("Java Activity");
 
         Button button = findViewById(R.id.btn_java);
 

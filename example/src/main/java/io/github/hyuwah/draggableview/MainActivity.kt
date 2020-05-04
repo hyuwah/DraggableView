@@ -117,7 +117,6 @@ class MainActivity : AppCompatActivity() {
         // Set click listener
         dvTest.setOnClickListener {
             Toast.makeText(this@MainActivity, "Clicked", Toast.LENGTH_SHORT).show()
-            startActivity(Intent(this, JavaMainActivity::class.java))
         }
 
         ll_test_draggable.setOnClickListener {
@@ -128,6 +127,14 @@ class MainActivity : AppCompatActivity() {
         tv_test_draggable.setOnClickListener {
             Toast.makeText(this@MainActivity, "Draggable Textview Clicked", Toast.LENGTH_SHORT)
                 .show()
+        }
+
+        btn_java_activity.setOnClickListener {
+            startActivity(Intent(this, JavaMainActivity::class.java))
+        }
+
+        btn_overlay_activity.setOnClickListener {
+            startActivity(Intent(this, OverlayDraggableActivity::class.java))
         }
 
     }

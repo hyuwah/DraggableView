@@ -2,13 +2,17 @@
 
 package io.github.hyuwah.draggableviewlib
 
+import android.graphics.PixelFormat
+import android.os.Build
 import android.view.MotionEvent
 import android.view.View
+import android.view.WindowManager
 import io.github.hyuwah.draggableviewlib.Draggable.DRAG_TOLERANCE
 import io.github.hyuwah.draggableviewlib.Draggable.DURATION_MILLIS
 import kotlin.math.abs
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 @JvmOverloads
 fun View.makeDraggable(
@@ -138,4 +142,67 @@ fun View.makeDraggable(
         }
         true
     }
+}
+
+/**
+ * Make floating draggable overlay view (on top of other application).
+ * You still have to manually manage adding, updating & removing the view via Window Manager from where
+ * you call this function
+ * @param listener callback for new LayoutParams, do `windowManager.updateViewLayout()` here
+ * @param layoutParams if you need to customize the layout params (e.g. Gravity),
+ * note that you still have to use correct Layout Flag, can be omitted for default value
+ * @return layoutParams to be used when adding the view on window manager (outside this function)
+ */
+@JvmOverloads
+fun View.makeOverlayDraggable(
+    listener: OverlayDraggableListener,
+    layoutParams: WindowManager.LayoutParams? = null
+): WindowManager.LayoutParams {
+    var widgetInitialX = 0
+    var widgetDX = 0f
+    var widgetInitialY = 0
+    var widgetDY = 0f
+
+    val layoutFlag = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+        WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+    } else {
+        WindowManager.LayoutParams.TYPE_PHONE
+    }
+    val params = layoutParams
+        ?: WindowManager.LayoutParams(
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            WindowManager.LayoutParams.WRAP_CONTENT,
+            layoutFlag,
+            WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE,
+            PixelFormat.TRANSLUCENT
+        )
+
+    setOnTouchListener { _, event ->
+        when (event.actionMasked) {
+            MotionEvent.ACTION_DOWN -> {
+                widgetInitialX = params.x
+                widgetInitialY = params.y
+                widgetDX = widgetInitialX - event.rawX
+                widgetDY = widgetInitialY - event.rawY
+                return@setOnTouchListener true
+            }
+            MotionEvent.ACTION_MOVE -> {
+                val newX = event.rawX + widgetDX
+                val newY = event.rawY + widgetDY
+                params.x = newX.roundToInt()
+                params.y = newY.roundToInt()
+                listener.onParamsChanged(params)
+                return@setOnTouchListener true
+            }
+            MotionEvent.ACTION_UP -> {
+                if (abs(params.x - widgetInitialX) <= DRAG_TOLERANCE && abs(params.y - widgetInitialY) <= DRAG_TOLERANCE) {
+                    performClick()
+                }
+                return@setOnTouchListener true
+            }
+            else -> return@setOnTouchListener false
+        }
+    }
+
+    return params
 }

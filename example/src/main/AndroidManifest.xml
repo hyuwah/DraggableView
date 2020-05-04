@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="io.github.hyuwah.draggableview">
 
+    <!-- These permission is only used by overlay draggable view-->
+    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
     <application
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
@@ -9,7 +13,12 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
-        <activity android:name=".JavaMainActivity"></activity>
+        <activity
+                android:name=".OverlayDraggableActivity"
+                android:parentActivityName=".MainActivity" />
+        <activity
+                android:name=".JavaMainActivity"
+                android:parentActivityName=".MainActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

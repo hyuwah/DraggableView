@@ -32,13 +32,16 @@ dependencies {
 
 **Note:** check the number on Jitpack badge above for latest version
 
+---
+
 ## Usage
 
-### CustomView (XML)
+### Draggable Inside App
+#### CustomView (XML)
 
 Currently i've only provide CustomView that extends ImageView. For other view, see **Programmatically** usage below
 
-#### Customizable Attributes
+##### Customizable Attributes
 
 **DraggableImageView**
 
@@ -47,7 +50,7 @@ Attribute | Value (Default) | XML | Code
 Animate | true, false (false) | animate | setAnimate(boolean isAnimate)
 Sticky Axis | NON_STICKY, STICKY_AXIS_X, STICKY_AXIS_Y, STICKY_AXIS_XY (NON_STICKY) | sticky | setStickyAxis(int axis)
 
-#### On Layout XML file
+##### On Layout XML file
 ```xml
 <io.github.hyuwah.draggableviewlib.DraggableImageView
             android:src="@mipmap/ic_launcher_round"
@@ -56,7 +59,7 @@ Sticky Axis | NON_STICKY, STICKY_AXIS_X, STICKY_AXIS_Y, STICKY_AXIS_XY (NON_STIC
             android:layout_height="wrap_content"/>
 ```
 
-#### On Activity / Fragment file
+##### On Activity / Fragment file
 ```kotlin
 var dv = findViewById<DraggableImageView>(R.id.draggableView)
 dv.setOnClickListener {
@@ -66,9 +69,9 @@ dv.setOnClickListener {
 
 You can add a DraggableListener programmatically via `setListener()` method directly on the view, see below explanation about the listener
 
-### Programmatically
+#### Programmatically
 
-#### Using extension (Kotlin)
+##### Using extension (Kotlin)
 
 You can extent any view or viewgroup to be draggable (i.e. Button, FrameLayout, Linearlayout, LottieView, etc)
 
@@ -114,7 +117,7 @@ tv.makeDraggable() // all default
 // - DraggableListener implementation (default is null)
 ```
 
-#### Using DraggableUtils (Java)
+##### Using DraggableUtils (Java)
 
 If you're on java class, you could do it with the help of DraggableUtils
 
@@ -167,7 +170,7 @@ DraggableUtils.makeDraggable(button) // all default
 // - DraggableListener implementation (default is null)
 ```
 
-#### DraggableListener
+##### DraggableListener
 There's an interface `DraggableListener` to listen to the `View` while being dragged / moved
 
 ```kotlin
@@ -189,6 +192,83 @@ someView.makeDraggable(object: DraggableListener{
 
 Check example module [kotlin](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/MainActivity.kt), [java](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/JavaMainActivity.java) for actual implementation
 
+### Draggable over other App (Overlay)
+
+> Tested working on API 25, 28 & 29
+> Not working as of now on API 19 (on investigation)
+
+This is the simplest way to setup an overlay draggable view, assuming it will be started from an activity.
+
+Some notes:
+* On the activity, implement `OverlayDraggableListener`
+* We need to make the view programmatically, here i'm creating a TextView, you can also inflate a layout
+* You need to make the view as global variable
+* Here i'm omitting the params / using default params for `makeOverlayDraggable()`
+
+This will create an overlay draggable view that tied to the activity's lifecycle, from `onCreate` until `onDestroy`.
+It is recommended to create the overlay draggable view on a `Service` instead of an activity, because of that reason.
+
+```kotlin
+class ExampleActivity: AppCompatActivity(), OverlayDraggableListener {
+	
+    private lateinit var overlayView: TextView
+    
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_example)
+    	overlayView = TextView(this)
+        overlayView.text = "Overlay Text View"
+        overlayView.textSize = 32f
+        overlayView.setShadowLayer(10f, 5f, 5f, Color.rgb(56, 56, 56))
+        overlayView.setOnClickListener {
+            Toast.makeText(this, "Overlay view clicked", Toast.LENGTH_SHORT).show()
+        }
+        var params = overlayView.makeOverlayDraggable(this)
+        windowManager.addView(overlayView, params) // Show overlay view
+    }
+    
+    // From OverlayDraggableListener
+    override fun onParamsChanged(updatedParams: WindowManager.LayoutParams) {
+        windowManager.updateViewLayout(overlayView, updatedParams) // Move overlay view
+    }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        windowManager.removeViewImmediate(overlayView) // Remove overlay view
+    }
+}
+```
+
+You also need to add some permission
+
+```xml
+    <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+```
+
+Also, before adding the view to WindowManager, you need to check if the device support overlay and required permission
+
+```kotlin
+private fun checkOverlayPermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M &&
+            !Settings.canDrawOverlays(this)
+        ) {
+            // Get permission first on Android M & above
+            val intent = Intent(
+                Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                Uri.parse("package:$packageName")
+            )
+            startActivityForResult(intent, 1234)
+        } else {
+            // overlayView & params are global variable
+            windowManager.addView(overlayView, params)
+        }
+    }
+```
+
+Check the example here: [Kotlin](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/OverlayDraggableActivity.kt)
+
+---
 ## Accompanying Article
 
 * [Implementasi DraggableView di Android (Bahasa)](https://medium.com/@hyuwah/implementasi-draggable-view-di-android-eb84e50fbba9)
