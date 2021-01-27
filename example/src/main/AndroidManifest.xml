@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
         package="io.github.hyuwah.draggableview">
-
-    <!-- These permission is only used by overlay draggable view-->
+    <!-- These permission is only used by overlay draggable view -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.ACTION_MANAGE_OVERLAY_PERMISSION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
@@ -13,6 +13,18 @@
             android:roundIcon="@mipmap/ic_launcher_round"
             android:supportsRtl="true"
             android:theme="@style/AppTheme">
+
+        <service
+                android:name=".overlay.OverlayService"
+                android:enabled="true"
+                android:exported="false" />
+
+        <activity
+                android:name=".ScrollingActivity"
+                android:parentActivityName=".MainActivity" />
+        <activity
+                android:name=".BasicExampleActivity"
+                android:parentActivityName=".MainActivity" />
         <activity
                 android:name=".OverlayDraggableActivity"
                 android:parentActivityName=".MainActivity" />

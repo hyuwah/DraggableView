@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".ScrollingActivity">
+
+    <androidx.core.widget.NestedScrollView
+            android:id="@+id/scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorPrimaryDark" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorAccent" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorPrimaryDark" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorAccent" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorPrimaryDark" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorAccent" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorPrimaryDark" />
+
+            <View
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:background="@color/colorAccent" />
+
+        </LinearLayout>
+
+    </androidx.core.widget.NestedScrollView>
+
+    <ImageView
+            android:id="@+id/dv_image"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_margin="8dp"
+            android:src="@mipmap/ic_launcher_round" />
+
+    <TextView
+            android:id="@+id/tv_scroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Scroll Information"
+            android:textColor="@android:color/white" />
+
+    <TextView
+            android:id="@+id/tv_debug"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:layout_gravity="center_horizontal"
+            android:text="Draggable Information"
+            android:textColor="@android:color/white" />
+
+</FrameLayout>

@@ -4,7 +4,7 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
-import android.widget.ImageView
+import androidx.appcompat.widget.AppCompatImageView
 import io.github.hyuwah.draggableviewlib.Draggable.DRAG_TOLERANCE
 import kotlin.math.abs
 import kotlin.math.max
@@ -14,7 +14,9 @@ import kotlin.math.min
  * 29/01/2019
  * muhammad.whydn@gmail.com
  */
-class DraggableImageView(context: Context, attrs: AttributeSet) : ImageView(context, attrs) {
+@Deprecated("Setup any view programmatically using DraggableView class instead")
+class DraggableImageView(context: Context, attrs: AttributeSet) :
+    AppCompatImageView(context, attrs) {
 
     companion object {
         const val NON_STICKY = 0

@@ -1,17 +1,17 @@
 package io.github.hyuwah.draggableview;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import org.jetbrains.annotations.NotNull;
 
-import io.github.hyuwah.draggableviewlib.Draggable;
 import io.github.hyuwah.draggableviewlib.DraggableListener;
-import io.github.hyuwah.draggableviewlib.DraggableUtils;
+import io.github.hyuwah.draggableviewlib.DraggableView;
 
 public class JavaMainActivity extends AppCompatActivity implements DraggableListener {
 
@@ -23,7 +23,11 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
 
         Button button = findViewById(R.id.btn_java);
 
-        DraggableUtils.makeDraggable(button, Draggable.STICKY.AXIS_X, true, this);
+        DraggableView<Button> buttonDraggable = new DraggableView.Builder<>(button)
+                .setStickyMode(DraggableView.Mode.NON_STICKY) // default NON_STICKY
+                .setAnimated(true) // default true
+                .setListener(this) // default null
+                .build();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
