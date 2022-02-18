@@ -6,6 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
@@ -42,5 +43,10 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
     public void onPositionChanged(@NotNull View view) {
         TextView textView = findViewById(R.id.tv_coordinate);
         textView.setText("X: " + view.getX() + "\tY: " + view.getY());
+    }
+
+    @Override
+    public void onLongPress(@NonNull View view) {
+
     }
 }

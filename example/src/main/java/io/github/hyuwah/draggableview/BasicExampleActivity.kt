@@ -1,6 +1,7 @@
 package io.github.hyuwah.draggableview
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.ImageView
@@ -29,6 +30,10 @@ class BasicExampleActivity : AppCompatActivity() {
                 tvLl1.text = "X: ${view.x.toString().take(6)}"
                 tvLl2.text = "Y: ${view.y.toString().take(6)}"
             }
+        }
+
+        override fun onLongPress(view: View) {
+            toast("Long press view : ${view.id}")
         }
     }
 

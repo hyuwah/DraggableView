@@ -7,10 +7,7 @@ import android.animation.AnimatorListenerAdapter
 import android.graphics.PixelFormat
 import android.os.Build
 import android.util.Log
-import android.view.MotionEvent
-import android.view.View
-import android.view.ViewGroup
-import android.view.WindowManager
+import android.view.*
 import io.github.hyuwah.draggableviewlib.Draggable.DRAG_TOLERANCE
 import io.github.hyuwah.draggableviewlib.Draggable.DURATION_MILLIS
 //import io.github.hyuwah.draggableviewlib.DraggableView.StickyRestSide
@@ -52,6 +49,15 @@ internal fun View.setupDraggable(
     val marginEnd = marginEnd()
     val marginBottom = marginBottom()
 
+
+    fun longClickSetup(v:View) : GestureDetector {
+        return GestureDetector(this.context,object : GestureDetector.SimpleOnGestureListener(){
+            override fun onLongPress(e: MotionEvent?) {
+                draggableListener?.onLongPress(v)
+            }
+        })
+    }
+
     setOnTouchListener { v, event ->
         val viewParent = v.parent as View
         val parentHeight = viewParent.height
@@ -60,6 +66,8 @@ internal fun View.setupDraggable(
         val xMiddle = parentWidth / 2
         val yMax = parentHeight - v.height - marginBottom
         val yMiddle = parentHeight / 2
+
+        longClickSetup(v).onTouchEvent(event)
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
