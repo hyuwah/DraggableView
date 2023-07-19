@@ -38,13 +38,13 @@ dependencies {
     </a>
 </div>
 
-**Breaking changes from `0.5.0` to `1.0.0`**
+## Contributors
 
+<a href="https://github.com/hyuwah/draggableview/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=hyuwah/draggableview" />
+</a>
 
-
----
-
-## Docs
+## Documentation
 
 ### Basic Usage
 
@@ -67,9 +67,9 @@ someDraggableView = someView.setupDraggable().build() // setupDraggable() return
 
 Options|Parameter|Default|Description
 ---|---|---|---
-setStickyMode() | `Draggable.Mode.NON_STICKY`, `Draggable.Mode.STICKY_X`, `Draggable.Mode.STICKY_Y`, `Draggable.Mode.STICKY_XY` | `Draggable.Mode.NON_STICKY` | Set stickiness mode
-setAnimated() | `true`, `false` | `true` | To animate the sticky movement, doesn't affect NON_STICKY
-setListener() | `null`, `DraggableListener` implementation | `null` | Listener when view position's changed
+`setStickyMode()` | `Draggable.Mode.NON_STICKY`, `Draggable.Mode.STICKY_X`, `Draggable.Mode.STICKY_Y`, `Draggable.Mode.STICKY_XY` | `Draggable.Mode.NON_STICKY` | Set stickiness mode
+`setAnimated()` | `true`, `false` | `true` | To animate the sticky movement, doesn't affect `NON_STICKY`
+`setListener()` | `null`, `DraggableListener` implementation | `null` | Listener for on view position's changed & on long click
 
 
 ```kotlin
@@ -94,17 +94,19 @@ someDraggableView = someView.setupDraggable()
 
 Method|Description
 ---|---
-getView() | returns the original view
-setViewPosition(x, y) | programmatically set view position
-enableDrag() | enable draggable / override the onTouchListener
-disableDrag() | disable draggable / set the onTouchListener to null
-show(duration) | show the view with expanding animation (duration default to 300ms if omitted)
-hide(duration) | hide the view with shrinking animation (duration default to 300ms if omitted)
-dockToEdge() | dock the view to left or right (only applies to MODE.STICKY_X for now)
-undock() | undock the view if it's docked
+`getView()` | returns the original view
+`setViewPosition(x, y)` | programmatically set view position
+`enableDrag()` | enable draggable / override the onTouchListener
+`disableDrag()` | disable draggable / set the onTouchListener to null
+`show(duration)` | show the view with expanding animation (duration default to 300ms if omitted)
+`hide(duration)` | hide the view with shrinking animation (duration default to 300ms if omitted)
+`dockToEdge()` | dock the view to left or right (only applies to MODE.STICKY_X for now)
+`undock()` | undock the view if it's docked
 
 
 You can still add click listener to your view as usual with `originalView.setOnClickListener` directly to your original view or via `wrappedDraggableView.getView().setOnClickListener`
+
+But for long click listener, you **have to use the `DraggableListener` interface**, as setting `setOnLongClickListener` directly on the view will interfere / might not be working well with the draggable view behavior
 
 **Listener**
 
@@ -113,6 +115,9 @@ private var someDraggableListener = object: DraggableListener {
     override fun onPositionChanged(view: View) {
         // Here you can access x & y of the view while moving
         Log.d(TAG, "X: ${view.x.toString()}, Y: ${view.y.toString()}")
+    }
+    override fun onLongPress(view: View) {
+        // Handle on long click
     }
 }
 
@@ -256,7 +261,7 @@ Check the example here
 - [Activity (Kotlin)](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/OverlayDraggableActivity.kt)
 - [Service (Kotlin)](https://github.com/hyuwah/DraggableView/blob/master/example/src/main/java/io/github/hyuwah/draggableview/overlay/OverlayService.kt)
 
----
+
 ## Related Article
 
 * [Implementasi DraggableView di Android (Bahasa)](https://medium.com/@hyuwah/implementasi-draggable-view-di-android-eb84e50fbba9)
