@@ -56,7 +56,7 @@ internal fun View.setupDraggable(
     )
     val gestureDetector =
         GestureDetectorCompat(this.context, object : GestureDetector.SimpleOnGestureListener() {
-            override fun onLongPress(e: MotionEvent?) {
+            override fun onLongPress(e: MotionEvent) {
                 if (viewState.isMoving) return
                 viewState.isLongPressRegistered = true
                 draggableListener?.onLongPress(this@setupDraggable)
@@ -111,7 +111,7 @@ internal fun View.setupDraggable(
 //                                        minimizeBtnListener.onPositionChanged(v, StickyRestSide.RIGHT)
                                     }
                                     .setListener(object : AnimatorListenerAdapter() {
-                                        override fun onAnimationEnd(animation: Animator?) {
+                                        override fun onAnimationEnd(animation: Animator) {
                                             super.onAnimationEnd(animation)
                                             Log.d("drg", "Animate END Sticky X RIGHT")
                                         }

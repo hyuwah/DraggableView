@@ -15,23 +15,25 @@
             android:theme="@style/AppTheme">
 
         <service
-                android:name=".overlay.OverlayService"
-                android:enabled="true"
-                android:exported="false" />
+            android:name=".overlay.OverlayService"
+            android:enabled="true"
+            android:exported="false" />
 
         <activity
-                android:name=".ScrollingActivity"
-                android:parentActivityName=".MainActivity" />
+            android:name=".ScrollingActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
-                android:name=".BasicExampleActivity"
-                android:parentActivityName=".MainActivity" />
+            android:name=".BasicExampleActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
-                android:name=".OverlayDraggableActivity"
-                android:parentActivityName=".MainActivity" />
+            android:name=".OverlayDraggableActivity"
+            android:parentActivityName=".MainActivity" />
         <activity
-                android:name=".JavaMainActivity"
-                android:parentActivityName=".MainActivity" />
-        <activity android:name=".MainActivity">
+            android:name=".JavaMainActivity"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

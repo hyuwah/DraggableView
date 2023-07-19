@@ -87,7 +87,7 @@ class DraggableView<T : View> private constructor(
                         .setInterpolator(AccelerateInterpolator())
                         .setDuration(durationMs.toLong())
                         .setListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
+                            override fun onAnimationEnd(animation: Animator) {
                                 super.onAnimationEnd(animation)
                                 visibility = View.GONE
                             }

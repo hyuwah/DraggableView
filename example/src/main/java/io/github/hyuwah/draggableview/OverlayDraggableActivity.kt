@@ -6,10 +6,13 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import androidx.appcompat.app.AppCompatActivity
+import io.github.hyuwah.draggableview.databinding.ActivityDraggableOverlayBinding
 import io.github.hyuwah.draggableview.overlay.OverlayService
-import kotlinx.android.synthetic.main.activity_draggable_overlay.*
+import io.github.hyuwah.draggableview.utils.viewBinding
 
 class OverlayDraggableActivity : AppCompatActivity() {
+
+    private val binding by viewBinding(ActivityDraggableOverlayBinding::inflate)
 
     private var isOverlayOn = false
 
@@ -17,7 +20,7 @@ class OverlayDraggableActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         title = "Overlay Draggable Activity"
         setContentView(R.layout.activity_draggable_overlay)
-        btn_show_overlay.setOnClickListener {
+        binding.btnShowOverlay.setOnClickListener {
             toggleOverlay()
         }
     }

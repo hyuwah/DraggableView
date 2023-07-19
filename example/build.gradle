@@ -1,16 +1,15 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
 
 android {
     buildFeatures {
         viewBinding = true
     }
-    compileSdkVersion 29
+    compileSdkVersion 33
     defaultConfig {
         applicationId "io.github.hyuwah.draggableview"
         minSdkVersion 19
-        targetSdkVersion 29
+        targetSdkVersion 33
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -41,7 +40,7 @@ dependencies {
     implementation "androidx.fragment:fragment-ktx:1.2.5"
     implementation "androidx.activity:activity-ktx:1.1.0"
 
-    implementation "io.coil-kt:coil:1.0.0"
+    implementation "io.coil-kt:coil:1.4.0"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'
