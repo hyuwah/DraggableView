@@ -216,3 +216,5 @@ fabric.properties
 .idea/codeStyles/
 
 .idea/dbnavigator.xml
+/.idea/deploymentTargetDropDown.xml
+/.idea/kotlinc.xml
