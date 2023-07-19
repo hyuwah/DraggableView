@@ -6,12 +6,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import org.jetbrains.annotations.NotNull;
 
 import io.github.hyuwah.draggableviewlib.DraggableListener;
 import io.github.hyuwah.draggableviewlib.DraggableView;
+
+import static io.github.hyuwah.draggableview.utils.ExtensionsKt.toast;
 
 public class JavaMainActivity extends AppCompatActivity implements DraggableListener {
 
@@ -32,7 +35,7 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(JavaMainActivity.this, "Button Clicked", Toast.LENGTH_SHORT).show();
+                toast(JavaMainActivity.this, "Button Clicked");
             }
         });
 
@@ -42,5 +45,10 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
     public void onPositionChanged(@NotNull View view) {
         TextView textView = findViewById(R.id.tv_coordinate);
         textView.setText("X: " + view.getX() + "\tY: " + view.getY());
+    }
+
+    @Override
+    public void onLongPress(@NonNull View view) {
+        toast(this,"Long press view : " + view.getId());
     }
 }

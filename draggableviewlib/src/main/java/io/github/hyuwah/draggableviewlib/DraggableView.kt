@@ -171,7 +171,17 @@ class DraggableView<T : View> private constructor(
 
         fun setStickyMode(mode: Mode) = apply { this.stickyMode = mode }
         fun setAnimated(value: Boolean) = apply { this.animated = value }
-        fun setListener(listener: DraggableListener?) = apply { this.listener = listener }
+        fun setListener(listener: DraggableListener?) = apply {
+            this.listener = listener
+            if (listener == null) {
+                targetView.setOnLongClickListener(null)
+            } else {
+                targetView.setOnLongClickListener {
+                    listener.onLongPress(it)
+                    true
+                }
+            }
+        }
         fun build() = DraggableView(targetView, stickyMode, animated, listener)
     }
 

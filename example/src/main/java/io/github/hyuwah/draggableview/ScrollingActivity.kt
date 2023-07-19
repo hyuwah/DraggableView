@@ -9,6 +9,7 @@ import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.NestedScrollView
 import io.github.hyuwah.draggableview.databinding.ActivityScrollingBinding
+import io.github.hyuwah.draggableview.utils.toast
 import io.github.hyuwah.draggableview.utils.viewBinding
 import io.github.hyuwah.draggableviewlib.DraggableListener
 import io.github.hyuwah.draggableviewlib.DraggableView
@@ -25,6 +26,10 @@ class ScrollingActivity : AppCompatActivity() {
                 X: ${view.x}
                 Y: ${view.y}
             """.trimIndent()
+        }
+
+        override fun onLongPress(view: View) {
+            toast("Long press view : ${view.id}")
         }
     }
 
