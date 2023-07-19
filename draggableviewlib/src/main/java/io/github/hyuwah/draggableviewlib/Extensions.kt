@@ -8,6 +8,7 @@ import android.graphics.PixelFormat
 import android.os.Build
 import android.util.Log
 import android.view.*
+import androidx.core.view.GestureDetectorCompat
 import io.github.hyuwah.draggableviewlib.Draggable.DRAG_TOLERANCE
 import io.github.hyuwah.draggableviewlib.Draggable.DURATION_MILLIS
 //import io.github.hyuwah.draggableviewlib.DraggableView.StickyRestSide
@@ -49,14 +50,18 @@ internal fun View.setupDraggable(
     val marginEnd = marginEnd()
     val marginBottom = marginBottom()
 
-
-    fun longClickSetup(v:View) : GestureDetector {
-        return GestureDetector(this.context,object : GestureDetector.SimpleOnGestureListener(){
+    val viewState = DraggableViewState(
+        isMoving = false,
+        isLongPressRegistered = false
+    )
+    val gestureDetector =
+        GestureDetectorCompat(this.context, object : GestureDetector.SimpleOnGestureListener() {
             override fun onLongPress(e: MotionEvent?) {
-                draggableListener?.onLongPress(v)
+                if (viewState.isMoving) return
+                viewState.isLongPressRegistered = true
+                draggableListener?.onLongPress(this@setupDraggable)
             }
         })
-    }
 
     setOnTouchListener { v, event ->
         val viewParent = v.parent as View
@@ -67,10 +72,11 @@ internal fun View.setupDraggable(
         val yMax = parentHeight - v.height - marginBottom
         val yMiddle = parentHeight / 2
 
-        longClickSetup(v).onTouchEvent(event)
+        gestureDetector.onTouchEvent(event)
 
         when (event.actionMasked) {
             MotionEvent.ACTION_DOWN -> {
+                viewState.isLongPressRegistered = false
                 widgetDX = v.x - event.rawX
                 widgetDY = v.y - event.rawY
                 widgetInitialX = v.x
@@ -80,17 +86,20 @@ internal fun View.setupDraggable(
                 var newX = event.rawX + widgetDX
                 newX = max(marginStart, newX)
                 newX = min(xMax, newX)
+                if (abs(v.x - newX) > DRAG_TOLERANCE) viewState.isMoving = true
                 v.x = newX
 
                 var newY = event.rawY + widgetDY
                 newY = max(marginTop, newY)
                 newY = min(yMax, newY)
+                if (abs(v.y - newY) > DRAG_TOLERANCE) viewState.isMoving = true
                 v.y = newY
 
                 draggableListener?.onPositionChanged(v)
 //                minimizeBtnListener.onPositionChanged(v, StickyRestSide.HIDE)
             }
             MotionEvent.ACTION_UP -> {
+                viewState.isMoving = false
                 when (stickyAxis) {
                     DraggableView.Mode.STICKY_X -> {
                         if (event.rawX >= xMiddle) {
@@ -194,6 +203,11 @@ internal fun View.setupDraggable(
                     }
                     else -> {
                     }
+                }
+
+                if (viewState.isLongPressRegistered) {
+                    // Don't register click
+                    return@setOnTouchListener true
                 }
 
                 if (abs(v.x - widgetInitialX) <= DRAG_TOLERANCE && abs(v.y - widgetInitialY) <= DRAG_TOLERANCE) {

@@ -14,6 +14,8 @@ import org.jetbrains.annotations.NotNull;
 import io.github.hyuwah.draggableviewlib.DraggableListener;
 import io.github.hyuwah.draggableviewlib.DraggableView;
 
+import static io.github.hyuwah.draggableview.utils.ExtensionsKt.toast;
+
 public class JavaMainActivity extends AppCompatActivity implements DraggableListener {
 
     @Override
@@ -33,7 +35,7 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(JavaMainActivity.this, "Button Clicked", Toast.LENGTH_SHORT).show();
+                toast(JavaMainActivity.this, "Button Clicked");
             }
         });
 
@@ -47,6 +49,6 @@ public class JavaMainActivity extends AppCompatActivity implements DraggableList
 
     @Override
     public void onLongPress(@NonNull View view) {
-
+        toast(this,"Long press view : " + view.getId());
     }
 }
